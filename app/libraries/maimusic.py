@@ -1,8 +1,7 @@
 from app.settings import DATA_DIR
+from app.libraries.constants import TARGET_LEVEL
 from typing import List, Dict
 import json
-
-TARGET_LEVEL = ['12', '12+', '13', '13+', '14']
 
 
 def build_music_row(music: Dict) -> Dict:
