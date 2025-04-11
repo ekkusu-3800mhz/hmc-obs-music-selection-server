@@ -134,12 +134,25 @@ class WebSocketEndpoint:
             'message': f"2P TRACK{request['track']}选曲展示完成！"
         }))
         return True
-    
+
+
+    @staticmethod
+    def show_final_stage_music(ws, request: Dict) -> bool:
+        send(ws, response('show_final_stage_music', RES_STATUS['PENDING'], {
+            'message': '正在展示总决赛最终选曲......'
+        }))
+        control = TimingControl()
+        control.show_final_stage_music()
+        send(ws, response('show_final_stage_music', RES_STATUS['SUCCESS'], {
+            'message': '选曲展示完成！'
+        }))
+        return True
+
 
     @staticmethod
     def show_extra_stage_music(ws, request: Dict) -> bool:
         send(ws, response('show_extra_stage_music', RES_STATUS['PENDING'], {
-            'message': '正在展示总决赛最终选曲......'
+            'message': '正在展示S组表演赛 Track3 选曲......'
         }))
         control = TimingControl()
         control.show_extra_stage_music()
@@ -152,7 +165,7 @@ class WebSocketEndpoint:
     @staticmethod
     def show_staff_extra_stage_music(ws, request: Dict) -> bool:
         send(ws, response('show_staff_extra_stage_music', RES_STATUS['PENDING'], {
-            'message': '正在展示S组表演赛最终选曲......'
+            'message': '正在展示S组表演赛 Track4 选曲......'
         }))
         control = TimingControl()
         control.show_staff_extra_stage_music()

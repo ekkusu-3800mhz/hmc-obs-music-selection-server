@@ -32,6 +32,7 @@ class OBSControl:
         self.__player02.track1GenerateId = OBSRequest.find_item_id_by_source_name(self.__player02_scene, OBS_CONST['PLAYER_2P_GENERATE_NAME_TRACK1'])
         self.__player02.track2GenerateId = OBSRequest.find_item_id_by_source_name(self.__player02_scene, OBS_CONST['PLAYER_2P_GENERATE_NAME_TRACK2'])
 
+        self.__finalStageMaskId = OBSRequest.find_item_id_by_source_name(self.__player01_scene, OBS_CONST['FINAL_STAGE_VIDEO_NAME'])
         self.__extraStageMaskId = OBSRequest.find_item_id_by_source_name(self.__player01_scene, OBS_CONST['EXTRA_STAGE_VIDEO_NAME'])
         self.__staffExtraStageMaskId = OBSRequest.find_item_id_by_source_name(self.__player01_scene, OBS_CONST['STAFF_EXTRA_STAGE_VIDEO_NAME'])
 
@@ -47,6 +48,7 @@ class OBSControl:
         OBSRequest.set_item_disabled(self.__player02_scene, self.__player02.track1GenerateId)
         OBSRequest.set_item_disabled(self.__player02_scene, self.__player02.track2GenerateId)
 
+        OBSRequest.set_item_disabled(self.__player01_scene, self.__finalStageMaskId)
         OBSRequest.set_item_disabled(self.__player01_scene, self.__extraStageMaskId)
         OBSRequest.set_item_disabled(self.__player01_scene, self.__staffExtraStageMaskId)
 
@@ -92,13 +94,29 @@ class OBSControl:
             OBSRequest.set_item_disabled(scene, control.track2GenerateId)
             OBSRequest.set_item_disabled(scene, control.whiteBaseId)
 
+
+    def show_final_stage_music(self):
+        OBSRequest.set_item_enabled(self.__player01_scene, self.__finalStageMaskId)
+
+
+    def hide_final_stage_music(self):
+        OBSRequest.set_item_disabled(self.__player01_scene, self.__finalStageMaskId)
+
     
     def show_extra_stage_music(self):
         OBSRequest.set_item_enabled(self.__player01_scene, self.__extraStageMaskId)
 
 
+    def hide_extra_stage_music(self):
+        OBSRequest.set_item_disabled(self.__player01_scene, self.__extraStageMaskId)
+
+
     def show_staff_extra_stage_music(self):
         OBSRequest.set_item_enabled(self.__player01_scene, self.__staffExtraStageMaskId)
+
+
+    def hide_staff_extra_stage_music(self):
+        OBSRequest.set_item_disabled(self.__player01_scene, self.__staffExtraStageMaskId)
 
 
 class TimingControl:
@@ -120,14 +138,19 @@ class TimingControl:
         self.__ctrl.toggle_player_mask(player)
 
 
-    def show_extra_stage_music(self):
+    def show_final_stage_music(self):
         self.__ctrl.toggle_player_mask(MAI_CONST['PLAYER_1P'])
         self.__ctrl.toggle_player_mask(MAI_CONST['PLAYER_2P'])
         sleep(1)
-        self.__ctrl.show_extra_stage_music()
+        self.__ctrl.show_final_stage_music()
         sleep(2)
         self.__ctrl.toggle_player_mask(MAI_CONST['PLAYER_1P'])
         self.__ctrl.toggle_player_mask(MAI_CONST['PLAYER_2P'])
+    
+    
+    def show_extra_stage_music(self):
+        self.__ctrl.show_extra_stage_music()
+        sleep(2)
 
 
     def show_staff_extra_stage_music(self):
@@ -146,6 +169,9 @@ class TimingControl:
         sleep(1)
         self.__ctrl.hide_player_selection(MAI_CONST['PLAYER_1P'])
         self.__ctrl.hide_player_selection(MAI_CONST['PLAYER_2P'])
+        self.__ctrl.hide_final_stage_music()
+        self.__ctrl.hide_extra_stage_music()
+        self.__ctrl.hide_staff_extra_stage_music()
         sleep(2)
         self.__ctrl.toggle_player_mask(MAI_CONST['PLAYER_1P'])
         self.__ctrl.toggle_player_mask(MAI_CONST['PLAYER_2P'])
